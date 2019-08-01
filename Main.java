@@ -1,137 +1,136 @@
 import java.util.Scanner;
 
-class LinkedList 
+class Main 
 { 
-    static class Node
-    { 
-        int data;
-        Node next;
+    static int winHM;
+    static int secHM;
+    static int winGDR;
+    static int secGDR;
+    static int winOTR;
+    static int secOTR;
 
-        public Node()
+    static class Runner
+    { 
+        private String name;
+        private int time;
+        private boolean hm,gdr,otr;
+        private Runner next;
+
+        public Runner()
         {
-        	this.data = 0;
+        	this.name = "";
+            this.time = 0;
+            this.hm = false;
+            this.gdr = false;
+            this.otr = false;
         	next = null;
         }
 
-        public Node(int d)
+        public Runner(String name, int time, boolean hm, boolean gdr, boolean otr)
         {
-        	this.data = d;
+        	this.name = name;
+            this.time = time;
+            this.hm = hm;
+            this.gdr = gdr;
+            this.otr = otr;
         	next = null;
         }
     }; 
-  	static Node head = null;
-    static void insert_at_front(int data) 
+  	static Runner head = null;
+    static Runner win1 = null;
+    static Runner sec1 = null;
+    static Runner win2 = null;
+    static Runner sec2 = null;
+    static Runner win3 = null;
+    static Runner sec3 = null;
+
+
+    static void insert(String name, int time, boolean hm, boolean gdr, boolean otr) 
     {
-        Node ptr_to_insert = new Node(data);
+        Runner  ptr_to_insert = new Runner(name,time,hm,gdr,otr);
         ptr_to_insert.next = head;
         head = ptr_to_insert;
+        if(hm==true)
+        {
+            if(win1==null)
+            {
+                win1 = ptr_to_insert;
+                winHM = time;
+            }
+            else if(sec1==null && time>winHM)
+            {
+                sec1 = ptr_to_insert;
+                secHM = time;
+            }
+            else if(time<winHM)
+            {
+                sec1 = win1;
+                secHM = winHM;
+                win1 = ptr_to_insert;
+                winHM = time;
+            }
+            else if(time>winHM && time<secHM)
+            {
+                sec1 = ptr_to_insert;
+                secHM = time;
+            }
+        }
+        else if(gdr==true)
+        {
+            if(win2==null)
+            {
+                win2 = ptr_to_insert;
+                winGDR = time;
+            }
+            else if(sec2==null && time>winGDR)
+            {
+                sec2 = ptr_to_insert;
+                secGDR = time;
+            }
+            else if(time<winGDR)
+            {
+                sec2 = win2;
+                secGDR = winGDR;
+                win2 = ptr_to_insert;
+                winGDR = time;
+            }
+            else if(time>winGDR && time<secGDR)
+            {
+                sec2 = ptr_to_insert;
+                secGDR = time;
+            }
+        }
+        else if(otr==true)
+        {
+            if(win3==null)
+            {
+                win3 = ptr_to_insert;
+                winOTR = time;
+            }
+            else if(sec3==null && time>winOTR)
+            {
+                sec3 = ptr_to_insert;
+                secOTR = time;
+            }
+            else if(time<winOTR)
+            {
+                sec3 = win3;
+                secOTR = winOTR;
+                win3 = ptr_to_insert;
+                winOTR = time;
+            }
+            else if(time>winOTR && time<secOTR)
+            {
+                sec3 = ptr_to_insert;
+                secOTR = time;
+            }
+        }
     }
 
-    static void insert_at_rear(int data)
-    {
-    	Node ptr_to_insert = new Node(data);
-    	Node ptr = head;
-    	while(ptr!=null && ptr.next!=null)
-    	{
-    		ptr = ptr.next;
-    	}
-    	ptr.next = ptr_to_insert;
-    }
 
-
-
-    static void traverse_to_print(int d)
-    {
-    	Node ptr = head;
-    	while(ptr!=null && ptr.next!=null)
-    	{
-    		if(ptr.data!=d){
-    		System.out.print(ptr.data);
-    		System.out.print(" ");
-    	}
-    		ptr = ptr.next;
-    	}
-    }
-    static void traverse_to_print()
-    {
-    	Node ptr = head;
-    	while(ptr!=null && ptr.next!=null)
-    	{
-    		
-    		System.out.print(ptr.data);
-    		System.out.print(" ");
-    		ptr = ptr.next;
-    	}
-    }
-    static void delete_last_node()
-    {
-    	if(head!=null)
-    	{
-    		Node prev = head;
-	    	Node curr = head.next;
-	    	while(curr!=null && curr.next!=null)
-	    	{
-	    		prev = curr;
-	    		curr = curr.next;
-	    	}
-	    	if(curr==null)
-	    	{
-	    		prev=null;
-	    		head=prev;
-	    	}
-	    	else if(curr.next==null)
-	    	{
-	    		prev.next = null;
-	    	}
-    	}
-    	
-    }
     public static void main(String args[]) 
     {
-    	Scanner sc = new  Scanner(System.in);
-    	int t = sc.nextInt();
-    	int c = 0;
-    	do{
-    		int flag = 0;
-    		
-    		
-    		int n = sc.nextInt();
-    		int [] list = new int[n];
-    		for(int i = 0; i<n; i++)
-    		{
-    			int a = sc.nextInt();
-    			list[i]=a;
-    			if(i==0){
-    				insert_at_front(a);
-    			}
-    			else{
-    				insert_at_rear(a);
-    			}
-    			
-    		}
-    		insert_at_rear(0);
-    		int l = sc.nextInt();
-    		if(l>0 && l<=n)
-    		{
-    			System.out.println("True");
-    			flag = 1;
-    			int d = list[l-1];
-    			System.out.println(n+1-l);
-    			traverse_to_print(d);
-    		}
-    		else
-    		{
-    			System.out.println("False");
-    			System.out.println(0);
-    			traverse_to_print();
-    		}
-    		c++;
-    		for(int j = 0;j<=n;j++)
-    		{
-    			delete_last_node();
-    		}
-    		
-    	}while(c<t);	
-    	
-   	}    
- }
+    	    insert("A",12,true,false,false);
+            insert("B",111,false,true,false);
+    }
+}
