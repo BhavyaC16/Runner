@@ -15,7 +15,7 @@ public class Project {
     public static JLabel l_message;
     public static JTextField tf_name;
     public static JTextField tf_time;
-    public static JTextField tf_message;
+    public static JTextArea tf_message;
     public static Linked_List linkedlist;
     public static void main(String[] args) {
 
@@ -100,17 +100,36 @@ public class Project {
             }
         });
 
+        
+
         //Message Panel/////////////////////////////////////////
         JPanel p_message = new JPanel();
         p_message.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         JLabel l_message = new JLabel("Winners: ");
-        JTextField tf_message = new JTextField();
-        tf_message.setPreferredSize(new Dimension(150,50));
+        JTextArea tf_message = new JTextArea();
+        tf_message.setPreferredSize(new Dimension(150,250));
         p_message.add(l_message);
         p_message.add(tf_message);
         p_main.add(p_message);
 
+
+        
+        b_winner.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getActionCommand());
+                String message = linkedlist.winners();
+                tf_message.setText(message);
+            }
+        });
+
+        b_cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
 
         //Frame Display///////////////////////////////////////
         frame.add(p_main);
@@ -122,7 +141,7 @@ public class Project {
 }
 class Runner
     { 
-        private String name;
+        String name;
         private int time;
         private boolean hm,gdr,otr;
         Runner next;
@@ -245,5 +264,66 @@ class Linked_List
                 secOTR = time;
             }
         }
+    }
+    static String winners()
+    {
+        String hmwinner;
+        String hmsecond;
+        String gdrwinner;
+        String gdrsecond;
+        String otrwinner;
+        String otrsecond;
+        if(win1==null)
+        {
+            hmwinner="None";
+        }
+        else
+        {
+            hmwinner = win1.name;
+        }
+        if(sec1==null)
+        {
+            hmsecond="None";
+        }
+        else
+        {
+            hmsecond = sec1.name;
+        }
+        if(win2==null)
+        {
+            gdrwinner="None";
+        }
+        else
+        {
+            gdrwinner = win2.name;
+        }
+        if(sec2==null)
+        {
+            gdrsecond="None";
+        }
+        else
+        {
+            gdrsecond = sec2.name;
+        }
+        if(win3==null)
+        {
+            otrwinner="None";
+        }
+        else
+        {
+            otrwinner = win3.name;
+        }
+        if(sec3==null)
+        {
+            otrsecond="None";
+        }
+        else
+        {
+            otrsecond = sec3.name;
+        }
+        
+
+        String message = "Half Marathon winners: \n First:"+hmwinner+"\n Prize: Rs. 2,80,000 \n Second:"+hmsecond+"\n Prize: Rs. 2,10,000 \n Open 10K Run: \n First: "+otrwinner+"\n Prize: Rs. 1,90,000 \n Second: "+otrsecond+"\n Prize: Rs. 1,50,000 \n Great Delhi Run \n First: "+gdrwinner+"\n Prize: Rs. 1,35,000 \n Second: "+gdrsecond+"\n Prize: Rs. 1,15,000";
+        return message;
     }
 }
